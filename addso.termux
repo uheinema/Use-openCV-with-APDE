@@ -1,0 +1,22 @@
+#!
+# addso - add the so parts of opencv to a sketch
+#
+# note this uses the Termux
+# way to access external storage 
+#
+sketchbook=$HOME/storage/shared/Sketchbook
+apkdir=$HOME/storage/shared/build/bin
+name=A_openCV
+read -e -p "Sketch to patch [$name]:"  sketchname
+sketchname=${sketchname:-$name}
+apk=${sketchname}.apk
+#
+cd $apkdir
+cp -r ${sketchbook}/${sketchname}/lib lib
+cp -r ${sketchbook}/${sketchname}/stuff/* .
+#
+ aapt add $apk lib/armeabi-v7a/*
+ apksigner sign --key testkey.pk8  --cert testkey.x509.pem $apk
+ #
+read -p 'No news is good news.' fakenews
+#
